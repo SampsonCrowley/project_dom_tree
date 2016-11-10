@@ -13,6 +13,6 @@ end
 guard :shell do
   watch %r{^pair/.*\.rb$} do |m|
     n m[0], 'Changed'
-    `bundle exec exe/sendevent "http://localhost:5000" #{m[0]}`
+    `bundle exec exe/sendevent "http://c5d68773.ngrok.io" #{m[0]}`
   end
 end
