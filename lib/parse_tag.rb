@@ -7,6 +7,7 @@ ParseTag = Struct.new(:type, :data, :attributes, :content) do
   def initialize(str)
     set_type(str.match(REGEX[:type])[1])
     self.attributes = {}
+    self.content = []
     set_attributes(str.scan(REGEX[:attributes]))
   end
 
@@ -26,10 +27,6 @@ ParseTag = Struct.new(:type, :data, :attributes, :content) do
         attributes[key.to_sym] = value
       end
     end
-  end
-
-  def content=(data)
-    self.content = data
   end
 
   def classes
@@ -58,4 +55,3 @@ def parse_tag(tag)
   ParseTag.new(tag)
 end
 
-p parse_tag("<p class='foo bar' id='baz' name='fozzie' something='test' data-something='test'>")

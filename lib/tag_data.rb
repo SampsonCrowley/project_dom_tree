@@ -2,14 +2,39 @@ require_relative 'parse_tag'
 
 class TagData
 
-  REGEX = {tags: /<[^>]+>/, closing: /<\/.*?>/}
+  REGEX = {tags: /<[^>]+>/, open:/<([^\/].*?)>/, closing: /<\/(.*?)>/}
 
   def initialize(html)
-    p @tags = html.scan(REGEX[:tags])
-    p @content = html.split(REGEX[:tags])[1..-1]
+    tags = html.scan(REGEX[:tags])
+    content = html.split(REGEX[:tags])
+    queue = []
+    until tags.empty?
+      queue << content.shift << tags.shift
+    end
+    queue[0] = nil
+    queue.shift
+    p build_dom(queue)
   end
 
-  def build_dom
+  def build_dom(queue, parent = nil)
+    idx = 0
+    content = []
+    stack = []
+    while idx < queue.length
+      item = queue[idx]
+      if item =~ REGEX[:open]
+        stack << ParseTag.new(item)
+      elsif item =~ REGEX[:closing]
+        if stack.length > 1
+          stack[-2].content << stack.pop
+        else
+          return stack[0]
+        end
+      else
+        stack[-1].content << item
+      end
+      idx += 1
+    end
   end
 end
 
