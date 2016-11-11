@@ -5,9 +5,9 @@ class DomParser
 
   REGEX = {doctype:/<!doctype.*?>/, tags: /<[^>]+>/, open:/<([^\/].*?)>/, closing: /<\/(.*?)>/}
 
-  def self.serialize(html)
+  def self.serialize(input)
 
-    html = input_type(html)
+    html = input_type(input)
 
     #destructive slice off doctype if exists
     doctype = html.scan(REGEX[:doctype])
