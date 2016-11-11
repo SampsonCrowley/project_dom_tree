@@ -13,7 +13,7 @@ class TagData
     end
     queue[0] = nil
     queue.shift
-    p build_dom(queue)
+    build_dom(queue)
   end
 
   def build_dom(queue, parent = nil)
@@ -38,4 +38,9 @@ class TagData
   end
 end
 
+
+time = Time.now
+1000000.times do
 TagData.new("<div> div text before <p> p text </p> <div> more div text </div> div text after</div>")
+end
+p Time.now - time
