@@ -1,4 +1,4 @@
-require 'parse_tag'
+require 'tag_parser'
 
 describe ParseTag do
 

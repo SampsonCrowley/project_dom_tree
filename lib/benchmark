@@ -1,18 +1,30 @@
 #!/usr/bin/env ruby
-require_relative 'tag_data_recursive'
-require_relative 'tag_data'
+require_relative 'dom_parser_recursive'
+require_relative 'dom_parser'
 
 rec_time = 0
 it_time = 0
 str = "<div> div text before <p> p text </p> <div> more div text </div> div text after</div>"
-10000000.times do
-  time = Time.now
-  TagData.new(str)
-  it_time += Time.now - time
+100.times do
 
-  time = Time.now
-  TagDataR.new(str)
-  rec_time += Time.now - time
+  num_of_times = rand(10..5_000_000)
+  num_of_times.times do
+    time = Time.now
+    DomParser.new(str)
+    it_time += Time.now - time
+
+    time = Time.now
+    DomParserRecursive.new(str)
+    rec_time += Time.now - time
+  end
+
+  p "Iterative: #{it_time} s"
+  p "Recursive: #{rec_time} s"
+
+
+  File.open("benchmarks.txt", "a") do |f|
+    f.puts("#{num_of_times} iterations:")
+    f.puts("Iterative: #{it_time} s")
+    f.puts("Recursive: #{rec_time} s")
+  end
 end
-p "Iterative: #{it_time} s"
-p "Recursive: #{rec_time} s"
