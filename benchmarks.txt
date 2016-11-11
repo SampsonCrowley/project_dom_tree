@@ -1,3 +1,0 @@
-298503 iterations:
-Iterative: 14.00547248700024 s
-Recursive: 14.000481587999994 s

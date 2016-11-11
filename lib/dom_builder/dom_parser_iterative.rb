@@ -1,7 +1,7 @@
-require_relative 'tag_parser'
+require 'dom_builder/tag_parser'
 require 'yaml'
 
-class DomParser
+class DOMParserIterative
 
   REGEX = {doctype:/<!doctype.*?>/, tags: /<[^>]+>/, open:/<([^\/].*?)>/, closing: /<\/(.*?)>/}
 
@@ -29,7 +29,7 @@ class DomParser
 
   end
 
-  private_class_method def self.build_dom(queue, parent = nil)
+  private_class_method def self.build_dom(queue)
 
     idx = 0
     content = []
@@ -68,8 +68,10 @@ class DomParser
   end
 
   private_class_method def self.input_type(html)
+
     return File.read(html) if File.exist?(html)
     html
+
   end
 
 end

@@ -3,6 +3,10 @@ guard :rspec, cmd: "bundle exec rspec" do
   watch(%r{^lib/(.+).rb$}) do |m|
     "spec/#{m[1]}_spec.rb"
   end
+  
+  watch(%r{^lib/dom_builder/(.+).rb$}) do |m|
+    "spec/#{m[1]}_spec.rb"
+  end
 
   # watch /spec/ files
   watch(%r{^spec/(.+).rb$}) do |m|

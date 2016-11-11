@@ -12,11 +12,11 @@ require_relative 'dom_parser'
 
   num_of_times.times do
     time = Time.now
-    DomParser::serialize("../test.html")
+    DOMParser::serialize("../test.html")
     it_time += Time.now - time
 
     time = Time.now
-    DomParserRecursive::serialize("../test.html")
+    DOMParserRecursive::serialize("../test.html")
     rec_time += Time.now - time
   end
 

@@ -1,9 +1,9 @@
-require_relative 'tag_parser'
-require_relative 'dom_parser'
+require 'dom_builder/tag_parser'
+require 'dom_builder/dom_parser'
 
-class DomPrinter
+class DOMPrinter
   def initialize(yaml)
-    run(yaml)
+    self.load(yaml)
   end
 
   def self.load(yaml)
@@ -21,7 +21,10 @@ class DomPrinter
     tab = "  "*depth
 
     print "#{tab}<#{tag.type}"
-    tag.attributes.each {|key, val| print " #{key}='#{val}'"}
+    tag.attributes.each do |key, val|
+      val = val.join(" ") if val.is_a?(Array)
+      print " #{key}='#{val}'"
+    end
     tag.data.each {|key, val| print " data-#{key}='#{val}'"}
     puts ">"
 
@@ -37,6 +40,3 @@ class DomPrinter
 
   end
 end
-
-
-# DomPrinter::load(DomParser::serialize("../test.html"))

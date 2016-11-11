@@ -1,9 +1,12 @@
-require_relative 'tag_parser'
+require 'dom_builder/tag_parser'
 require 'yaml'
 
-class DomParserRecursive
+class DOMParser
 
-  REGEX = {doctype:/<!doctype.*?>/, tags: /<[^>]+>/, open:/<([^\/].*?)>/, closing: /<\/(.*?)>/}
+  REGEX = {doctype:/<!doctype.*?>/,
+           tags: /<[^>]+>/,
+           open:/<([^\/].*?)>/,
+           closing: /<\/(.*?)>/}
 
   def self.serialize(input)
 
@@ -26,19 +29,20 @@ class DomParserRecursive
              )
            )
     }.to_yaml
+
   end
 
-  private_class_method def self.build_dom(queue, idx = 0)
+  private_class_method def self.build_dom(queue, parent = nil)
     content, dom = [], nil
 
-    until !queue || queue.length == 0
+    until queue.length == 0
 
       item = queue.shift
 
       if item =~ REGEX[:open]
 
         dom = TagParser.new(item)
-        dom.content, queue = build_dom(queue)
+        dom.content, queue = build_dom(queue, dom)
         content << dom
 
       elsif item =~ REGEX[:closing]

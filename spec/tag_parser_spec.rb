@@ -1,9 +1,10 @@
-require 'tag_parser'
+require 'dom_builder/tag_parser'
 
-describe ParseTag do
+describe TagParser do
 
   let(:str_w_attr) { "<p class='foo bar' id='baz' name='fozzie' something='test' data-something='test'>" }
-  let(:test_tag) { ParseTag.new(str_w_attr) }
+
+  let(:test_tag) { TagParser.new(str_w_attr) }
 
   describe '#new' do
 
