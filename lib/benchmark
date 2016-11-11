@@ -2,19 +2,21 @@
 require_relative 'dom_parser_recursive'
 require_relative 'dom_parser'
 
-rec_time = 0
-it_time = 0
-str = "<div> div text before <p> p text </p> <div> more div text </div> div text after</div>"
+
 100.times do
 
+  rec_time = 0
+  it_time = 0
+
   num_of_times = rand(10..5_000_000)
+
   num_of_times.times do
     time = Time.now
-    DomParser.new(str)
+    DomParser::serialize("../test.html")
     it_time += Time.now - time
 
     time = Time.now
-    DomParserRecursive.new(str)
+    DomParserRecursive::serialize("../test.html")
     rec_time += Time.now - time
   end
 
