@@ -1,4 +1,4 @@
-ParseTag = Struct.new(:type, :data, :attributes) do
+ParseTag = Struct.new(:type, :data, :attributes, :content) do
 
   REGEX = {type: /<(.*?)(\s|>)/,
            attributes: /\s(.*?)=["'](.*?)["']/,
@@ -28,6 +28,10 @@ ParseTag = Struct.new(:type, :data, :attributes) do
     end
   end
 
+  def content=(data)
+    self.content = data
+  end
+
   def classes
     attributes[:classes]
   end
@@ -53,3 +57,5 @@ end
 def parse_tag(tag)
   ParseTag.new(tag)
 end
+
+p parse_tag("<p class='foo bar' id='baz' name='fozzie' something='test' data-something='test'>")
