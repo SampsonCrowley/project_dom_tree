@@ -1,6 +1,6 @@
 require_relative 'parse_tag'
 
-class TagData
+class TagDataR
 
   REGEX = {tags: /<[^>]+>/, open:/<([^\/].*?)>/, closing: /<\/(.*?)>/}
 
@@ -13,27 +13,36 @@ class TagData
     end
     queue[0] = nil
     queue.shift
+
     build_dom(queue)
   end
 
-  def build_dom(queue, parent = nil)
-    idx = 0
-    content = []
-    stack = []
-    while idx < queue.length
-      item = queue[idx]
+  def build_dom(queue, idx = 0)
+    content, dom = [], nil
+
+    until !queue || queue.length == 0
+
+      item = queue.shift
+
       if item =~ REGEX[:open]
-        stack << ParseTag.new(item)
+
+        dom = ParseTag.new(item)
+        dom.content, queue = build_dom(queue)
+        content << dom
+
       elsif item =~ REGEX[:closing]
-        if stack.length > 1
-          stack[-2].content << stack.pop
-        else
-          return stack[0]
-        end
+
+        return content, queue
+
       else
-        stack[-1].content << item
+
+        content  << item
+
       end
-      idx += 1
     end
+
+    dom
+
   end
 end
+

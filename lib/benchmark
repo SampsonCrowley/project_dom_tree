@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require_relative 'tag_data_recursive'
+require_relative 'tag_data'
+
+rec_time = 0
+it_time = 0
+str = "<div> div text before <p> p text </p> <div> more div text </div> div text after</div>"
+10000000.times do
+  time = Time.now
+  TagData.new(str)
+  it_time += Time.now - time
+
+  time = Time.now
+  TagDataR.new(str)
+  rec_time += Time.now - time
+end
+p "Iterative: #{it_time} s"
+p "Recursive: #{rec_time} s"
